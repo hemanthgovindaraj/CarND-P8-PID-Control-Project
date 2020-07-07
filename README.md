@@ -2,6 +2,42 @@
 Self-Driving Car Engineer Nanodegree Program
 
 ---
+# Rubric points
+
+## Compilation
+
+Code compiles without errors with cmake and make.
+There are warning though since i have not used the steering value and speed in the code.
+
+
+## PID controller Design and Implementation
+
+The PID was designed using the PID concept and the Twiddle algorithm taught in the class.
+
+#### Proportional control
+The proportional part of the controller was responsible for mainly reducing the cross track error. I started by trying to manually tune the controller since the Twiddle had a really high overshoot at the start with a default value of 0. The proportional part was tuned manually to a value of 0.4. With only proportional values, the vehicle had oscillations and this oscillations increased with time and eventually went out of the track. This was expected though with no differential part to control the oscillations.
+
+### Differential control
+Then to control the oscillation of errors, i then used the differential part and started tuning. I ended with manually tuning it to a value of 8 and saw that the oscillations reduced drasctically and i was able to keep the vehicle in lane.
+
+### Integral part
+Having introduced the proportional and differential part, i proceeded to include an integral part. i started of with a value of 1 and observed that the vehicle started to go in circles. This was also expected since with a high weight to the integral control , i was eventually getting high values of steering.The i kept on reducing the values of the integral part until i was able to see a stable value.At last i arrived at a value of 0.001.
+
+## Final tuning using twiddle
+With the twiddle code, i used 600 iterations and calculated the error for second half.I then utilised the concept of resetting the simulator to run the twiddle logic in cycles.Using this average error from the 300 iterations, i started the cycle of iteratively increasing and decreasing the 3 parameters to fine tune them. After having run the twiddle for more than 30 cycles, i saw that the twiddle was not reducing much from the manually tuned parameters. At last i ended up with Kp = 0.5, Ki = 0.0009 and Kd = 7.5.
+
+The twiddle logic is in the lines 67-189 of PID.cpp
+
+From having run the twiddle, at least for this project, manual tuning seems to be working better than twiddle. I just tried using SGD and it wasnt giving a better result either.
+
+## Simulation
+
+A final video after tuning the parameters is attached here.
+
+[video1]: ./PID_Controller_Video.mp4 "Video"
+
+The vehicle successfully drove around the track without going out. At the end of the bridge with a high speed of 30Mph, it oscillates but then recovers to stay in the track.
+
 
 ## Dependencies
 
